@@ -1,5 +1,5 @@
 'use client'
-import { useState, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import styles from './admin.module.css'
 
 type Photo = {
@@ -33,7 +33,7 @@ export default function AdminPage() {
     setLoaded(true)
   }, [])
 
-  useState(() => { loadPhotos() })
+  useEffect(() => { loadPhotos() }, [loadPhotos])
 
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files ?? [])
