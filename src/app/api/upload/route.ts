@@ -30,6 +30,16 @@ export async function POST(req: NextRequest) {
 
       await writeFile(filePath, buffer)
 
+      // Generate compressed thumbnail for admin
+    const thumbDir = path.join(UPLOAD_DIR, 'thumbs')
+    await mkdir(thumbDir, { recursive: true })
+    const thumbPath = path.join(thumbDir, filename)
+    const sharp = (await import('sharp')).default
+    await sharp(buffer)
+      .resize(400, 400, { fit: 'inside', withoutEnlargement: true })
+      .jpeg({ quality: 70 })
+      .toFile(thumbPath)
+
       // Extract EXIF server-side using exifr
       let exif: Record<string, unknown> = {}
       try {

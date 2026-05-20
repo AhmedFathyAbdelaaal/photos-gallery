@@ -172,7 +172,7 @@ export default function AdminPage() {
       onClick={() => toggleSelect(photo.id)}
     >
       <img
-        src={`/api/photos/${photo.filename}`}
+        src={`/api/thumbs/${photo.filename}`}
         alt=""
         className={styles.thumbImg}
       />

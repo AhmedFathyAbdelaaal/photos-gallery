@@ -1,8 +1,9 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Navbar from '@/components/Navbar'
 import DriftingGrid from '@/components/DriftingGrid'
 import Lightbox from '@/components/Lightbox'
+import LoadingScreen from '@/components/LoadingScreen'
 
 type Photo = {
   id: string
@@ -26,6 +27,14 @@ export default function HomeClient({
   showcaseSlugs: string[]
 }) {
   const [selected, setSelected] = useState<Photo | null>(null)
+  const [ready, setReady] = useState(false)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setReady(true), 7000)
+    return () => clearTimeout(timer)
+  }, [])
+
+  if (!ready) return <LoadingScreen />
 
   return (
     <>
