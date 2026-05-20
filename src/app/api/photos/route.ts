@@ -23,3 +23,21 @@ export async function GET() {
   })
   return NextResponse.json(photos)
 }
+
+export async function DELETE(req: NextRequest) {
+  const { id } = await req.json()
+  
+  const photo = await prisma.photo.findUnique({ where: { id } })
+  if (!photo) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+
+  // Delete file from disk
+  try {
+    const { unlink } = await import('fs/promises')
+    await unlink(photo.path)
+  } catch {
+    // File might already be gone, continue anyway
+  }
+
+  await prisma.photo.delete({ where: { id } })
+  return NextResponse.json({ ok: true })
+}

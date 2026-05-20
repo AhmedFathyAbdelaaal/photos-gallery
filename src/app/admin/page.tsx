@@ -182,6 +182,31 @@ export default function AdminPage() {
                 </div>
               )}
             </button>
+            <button
+  key={photo.id}
+  className={`${styles.photoThumb} ${selectedForShowcase.includes(photo.id) ? styles.selected : ''}`}
+  onClick={() => toggleSelect(photo.id)}
+>
+  <img src={`/api/photos/${photo.filename}`} alt="" className={styles.thumbImg} />
+  {selectedForShowcase.includes(photo.id) && (
+    <div className={styles.checkmark}>{selectedForShowcase.indexOf(photo.id) + 1}</div>
+  )}
+  <button
+    className={styles.deleteBtn}
+    onClick={async (e) => {
+      e.stopPropagation()
+      if (!confirm('delete this photo?')) return
+      await fetch('/api/photos', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: photo.id }),
+      })
+      loadPhotos()
+    }}
+  >
+    ×
+  </button>
+</button>
           ))}
         </div>
       </section>
