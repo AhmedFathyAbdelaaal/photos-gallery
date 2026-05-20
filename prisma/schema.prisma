@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Photo {
+  id        String   @id @default(cuid())
+  filename  String   @unique
+  path      String
+  width     Int?
+  height    Int?
+  size      Int?
+  mimeType  String?
+  // EXIF
+  camera    String?
+  lens      String?
+  focalLength String?
+  aperture  String?
+  shutterSpeed String?
+  iso       String?
+  takenAt   DateTime?
+  // Meta
+  createdAt DateTime @default(now())
+  showcases ShowcasePhoto[]
+}
+
+model Showcase {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  caption     String?
+  publishedAt DateTime?
+  createdAt   DateTime @default(now())
+  photos      ShowcasePhoto[]
+}
+
+model ShowcasePhoto {
+  id         String   @id @default(cuid())
+  showcase   Showcase @relation(fields: [showcaseId], references: [id], onDelete: Cascade)
+  showcaseId String
+  photo      Photo    @relation(fields: [photoId], references: [id], onDelete: Cascade)
+  photoId    String
+  order      Int      @default(0)
+
+  @@unique([showcaseId, photoId])
+}
