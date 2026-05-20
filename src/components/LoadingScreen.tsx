@@ -1,7 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
 import styles from './LoadingScreen.module.css'
-import LoadingScreen from '@/components/LoadingScreen'
 
 export default function LoadingScreen() {
   const [progress, setProgress] = useState(0)
