@@ -30,7 +30,7 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
 # Persistent data dir — mount a volume here
-RUN mkdir -p /data/uploads && chown nextjs:nodejs /data/uploads
+RUN mkdir -p /data/uploads /data/db && chown -R nextjs:nodejs /data
 
 COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
