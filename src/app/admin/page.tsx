@@ -181,8 +181,7 @@ export default function AdminPage() {
                   {selectedForShowcase.indexOf(photo.id) + 1}
                 </div>
               )}
-            </button>
-            <button
+              <button
   key={photo.id}
   className={`${styles.photoThumb} ${selectedForShowcase.includes(photo.id) ? styles.selected : ''}`}
   onClick={() => toggleSelect(photo.id)}
@@ -207,6 +206,8 @@ export default function AdminPage() {
     ×
   </button>
 </button>
+            </button>
+            
           ))}
         </div>
       </section>
