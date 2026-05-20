@@ -1,7 +1,7 @@
 FROM node:20-alpine AS base
 
 # Install deps needed for sharp and sqlite
-RUN apk add --no-cache libc6-compat python3 make g++
+RUN apk add --no-cache libc6-compat python3 make g++ openssl
 
 WORKDIR /app
 
