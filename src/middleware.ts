@@ -9,12 +9,14 @@ export function middleware(request: NextRequest) {
 
   // Always allow the auth API and the login page assets
   if (
-    pathname.startsWith('/api/auth') ||
-    pathname.startsWith('/_next') ||
-    pathname.startsWith('/favicon')
-  ) {
-    return NextResponse.next()
-  }
+  pathname.startsWith('/api/auth') ||
+  pathname.startsWith('/_next') ||
+  pathname.startsWith('/favicon') ||
+  pathname === '/login' ||
+  pathname === '/admin/login'
+) {
+  return NextResponse.next()
+}
 
   const siteCookie = request.cookies.get(SITE_COOKIE)
   const siteAuthed = siteCookie?.value === process.env.SITE_PASSWORD
