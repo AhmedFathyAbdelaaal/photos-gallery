@@ -22,7 +22,7 @@ export function middleware(request: NextRequest) {
   const siteAuthed = siteCookie?.value === process.env.SITE_PASSWORD
 
   // Admin routes need admin password too
-  if (pathname.startsWith('/admin') || pathname.startsWith('/api/upload') || pathname.startsWith('/api/showcases') || pathname.startsWith('/api/photos')) {
+  if (pathname.startsWith('/admin') || pathname.startsWith('/api/upload') || pathname.startsWith('/api/showcases')){
     const adminCookie = request.cookies.get(ADMIN_COOKIE)
     const adminAuthed = adminCookie?.value === process.env.ADMIN_PASSWORD
     if (!adminAuthed) {
