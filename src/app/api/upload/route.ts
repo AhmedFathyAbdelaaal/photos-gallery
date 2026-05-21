@@ -36,8 +36,8 @@ export async function POST(req: NextRequest) {
     const thumbPath = path.join(thumbDir, filename)
     const sharp = (await import('sharp')).default
     await sharp(buffer)
-      .resize(400, 400, { fit: 'inside', withoutEnlargement: true })
-      .jpeg({ quality: 70 })
+      .resize(1200, 1200, { fit: 'inside', withoutEnlargement: true })
+      .jpeg({ quality: 85 })
       .toFile(thumbPath)
 
       // Extract EXIF server-side using exifr
