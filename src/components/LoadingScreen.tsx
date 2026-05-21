@@ -8,7 +8,7 @@ export default function LoadingScreen() {
   useEffect(() => {
     const interval = setInterval(() => {
       setProgress(p => Math.min(p + (100 / 30), 100))
-    }, 100)
+    }, 70)
     return () => clearInterval(interval)
   }, [])
 
