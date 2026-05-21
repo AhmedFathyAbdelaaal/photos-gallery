@@ -48,3 +48,9 @@ export async function POST(req: NextRequest) {
 
   return NextResponse.json(showcase)
 }
+
+export async function DELETE(req: NextRequest) {
+  const { id } = await req.json()
+  await prisma.showcase.delete({ where: { id } })
+  return NextResponse.json({ ok: true })
+}

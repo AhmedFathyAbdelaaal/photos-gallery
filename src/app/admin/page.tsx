@@ -26,6 +26,14 @@ export default function AdminPage() {
   const [message, setMessage] = useState('')
   const fileRef = useRef<HTMLInputElement>(null)
 
+  const [showcases, setShowcases] = useState<{ id: string; slug: string; title: string }[]>([])
+
+const loadShowcases = useCallback(async () => {
+  const res = await fetch('/api/showcases')
+  const data = await res.json()
+  setShowcases(data)
+}, [])
+
   const loadPhotos = useCallback(async () => {
     const res = await fetch('/api/photos')
     const data = await res.json()
@@ -33,7 +41,10 @@ export default function AdminPage() {
     setLoaded(true)
   }, [])
 
-  useEffect(() => { loadPhotos() }, [loadPhotos])
+  useEffect(() => { 
+  loadPhotos()
+  loadShowcases()
+}, [loadPhotos, loadShowcases])
 
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files ?? [])
@@ -157,6 +168,31 @@ export default function AdminPage() {
           {message && <p className={styles.msg}>{message}</p>}
         </div>
       </section>
+      <section className={styles.section}>
+  <h2 className={styles.sectionTitle}>showcases ({showcases.length})</h2>
+  <div className={styles.showcaseList}>
+    {showcases.map(s => (
+      <div key={s.id} className={styles.showcaseRow}>
+        <span className={styles.showcaseRowTitle}>{s.title}</span>
+        <span className={styles.showcaseRowSlug}>/showcase/{s.slug}</span>
+        <button
+          className={styles.showcaseDeleteBtn}
+          onClick={async () => {
+            if (!confirm(`delete showcase "${s.title}"?`)) return
+            await fetch('/api/showcases', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ id: s.id }),
+            })
+            loadShowcases()
+          }}
+        >
+          delete
+        </button>
+      </div>
+    ))}
+  </div>
+</section>
 
       {/* Photo grid */}
       <section className={styles.section}>
