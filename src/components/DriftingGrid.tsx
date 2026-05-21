@@ -31,7 +31,7 @@ export default function DriftingGrid({ photos, onPhotoClick }: {
   const colCount = Math.min(COLUMN_CONFIG.length, Math.max(2, Math.floor(photos.length / 2)))
   const columns = splitIntoColumns(photos, colCount)
   const colRefs = useRef<(HTMLDivElement | null)[]>([])
-  const posRef = useRef<number[]>(COLUMN_CONFIG.map(() => 0))
+  const posRef = useRef<number[]>(COLUMN_CONFIG.map(() => -200))
   const rafRef = useRef<number>(0)
   const lastTimeRef = useRef<number>(0)
 
@@ -92,7 +92,7 @@ export default function DriftingGrid({ photos, onPhotoClick }: {
                 }}
               >
                 <img
-                  src={`/api/photos/${photo.filename}`}
+                  src={`/api/thumbs/${photo.filename}`}
                   alt=""
                   className={styles.photo}
                   loading="lazy"
